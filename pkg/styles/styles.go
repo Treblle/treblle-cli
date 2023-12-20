@@ -14,3 +14,8 @@ var Info = Text.
 	Bold(true).
 	Foreground(lipgloss.Color("#FAFAFA")).
 	Background(lipgloss.Color("#7D56F4"))
+
+var Success = Text.
+	Bold(true).
+	Foreground(lipgloss.Color("#FAFAFA")).
+	Background(lipgloss.Color("#7D56F4"))
