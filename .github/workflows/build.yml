@@ -1,0 +1,52 @@
+name: Build Release Binaries
+
+on:
+  release:
+  workflow_dispatch:
+
+jobs:
+  build:
+      name: Build on ${{ matrix.os }} (${{ matrix.arch }})
+      runs-on: ${{ matrix.os }}
+      strategy:
+        matrix:
+          include:
+            - os: ubuntu-latest
+              arch: amd64
+            - os: windows-latest
+              arch: amd64
+            - os: macos-latest
+              arch: amd64
+            - os: macos-latest
+              arch: arm64
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+
+        - name: Set up Go
+          uses: actions/setup-go@v2
+          with:
+            go-version: '1.16' # Replace with your Go version
+
+        - name: Build Binary
+          run: |
+            if [ "${{ matrix.arch }}" = "arm64" ] && [ "${{ matrix.os }}" = "macos-latest" ]; then
+              echo "Building for Apple Silicon (ARM64)"
+              GOARCH=arm64 go build -o treblle-${{ matrix.os }}-${{ matrix.arch }}-${{ github.sha }} ./
+            else
+              echo "Building for ${matrix.arch}"
+              GOARCH=${{ matrix.arch }} go build -o treblle-${{ matrix.os }}-${{ matrix.arch }}-${{ github.sha }} ./
+            fi
+          env:
+            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            AWS_ACCESS_TOKEN: ${{ secrets.AWS_ACCESS_TOKEN }}
+            AWS_REGION: ${{ secrets.AWS_REGION }}
+            AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
+            API_INSIGHTS_API_KEY: ${{ secrets.API_INSIGHTS_API_KEY }}
+
+        - name: Upload Binary
+          uses: actions/upload-artifact@v2
+          with:
+            name: treblle-${{ matrix.os }}-${{ github.sha }}
+            path: treblle-${{ matrix.os }}-${{ github.sha }}
