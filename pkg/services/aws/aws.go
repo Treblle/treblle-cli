@@ -12,7 +12,7 @@ import (
 
 // SendToS3 will take a filepath as well as the AWS credentials and upload
 // the file to AWS S3 returning the URL of the upload or an error.
-func SendToS3(filePath string, accessKeyID string, secretAccessKey string, sessionToken string, region string, bucketName string) (string, error) {
+func SendToS3(filePath string, accessKeyID string, secretAccessKey string, region string, bucketName string) (string, error) {
 	// Generate a unique filename
 	uniqueFilename, err := filesystem.Hash(filePath)
 	if err != nil {
