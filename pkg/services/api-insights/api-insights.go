@@ -6,7 +6,6 @@ import (
 	"os"
 
 	"github.com/treblle/treblle-cli/pkg/services/aws"
-	"github.com/treblle/treblle-cli/pkg/services/filesystem"
 	"github.com/treblle/treblle-cli/pkg/services/http"
 )
 
@@ -29,23 +28,6 @@ func (h CheckFileHandler) Process(input interface{}) (interface{}, error) {
 	return filePath, nil
 }
 
-type HashFilenameHandler struct{}
-
-func (h HashFilenameHandler) Process(input interface{}) (interface{}, error) {
-	filePath, ok := input.(string)
-	if !ok {
-		return nil, fmt.Errorf("input is not a valid string")
-	}
-
-	hashedName, err := filesystem.Hash(filePath)
-	if err != nil {
-		return nil, err
-	}
-
-	log.Printf("Hashed filename: %s", hashedName)
-	return hashedName, nil
-}
-
 type UploadToS3Handler struct{}
 
 func (h UploadToS3Handler) Process(input interface{}) (interface{}, error) {
@@ -59,8 +41,6 @@ func (h UploadToS3Handler) Process(input interface{}) (interface{}, error) {
 	region := os.Getenv("AWS_REGION")
 	bucketName := os.Getenv("AWS_BUCKET_NAME")
 
-	// create session token
-
 	// Implement the S3 upload logic. Assume it returns the URL of the uploaded file
 	uploadedURL, err := aws.SendToS3(filePath, accessKeyID, secretAccessKey, region, bucketName)
 	if err != nil {
@@ -68,7 +48,7 @@ func (h UploadToS3Handler) Process(input interface{}) (interface{}, error) {
 	}
 
 	log.Printf("Uploaded to S3: %s", uploadedURL)
-	return uploadedURL, nil
+	return filePath, nil
 }
 
 type SendAPIRequestHandler struct{}

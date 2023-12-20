@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"path/filepath"
 	"time"
 
 	"github.com/charmbracelet/bubbles/spinner"
@@ -41,6 +42,7 @@ var insightsCmd = &cobra.Command{
 		// Handle pipeline responses
 		select {
 		case errMsg := <-errorChan:
+			fmt.Printf("Error: %v\n\n", errMsg)
 			p.Send(errMsg) // Send error message to Bubble Tea program
 		case successMsg := <-successChan:
 			p.Send(successMsg) // Send success message to Bubble Tea program
@@ -106,22 +108,30 @@ func (m model) View() string {
 	return str
 }
 
-func runInsightsCmd(filepath string, successChan chan<- string, errorChan chan<- error) {
+func runInsightsCmd(path string, successChan chan<- string, errorChan chan<- error) {
 	// Artificial wait
-	time.Sleep(5 * time.Second) // Wait for 5 seconds
+	time.Sleep(1 * time.Second) // Wait for 5 seconds
+
+	// Resolve the absolute file path
+	absPath, err := filepath.Abs(path)
+	if err != nil {
+		errorChan <- fmt.Errorf("failed to get absolute file path: %w", err)
+		return
+	}
 
 	pipeline := pipeline.NewPipeline(
 		apiinsights.CheckFileHandler{},
-		apiinsights.HashFilenameHandler{},
 		apiinsights.UploadToS3Handler{},
 		apiinsights.SendAPIRequestHandler{},
 	)
 
 	pipeline.Start()
 
+	// get absolute file path?
+
 	go func() {
 		defer close(pipeline.Input())
-		pipeline.Input() <- filepath
+		pipeline.Input() <- absPath
 	}()
 
 	go func() {
