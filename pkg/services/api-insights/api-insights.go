@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/treblle/treblle-cli/pkg/services/aws"
+	"github.com/treblle/treblle-cli/pkg/services/filesystem"
 	"github.com/treblle/treblle-cli/pkg/services/http"
 )
 
@@ -54,17 +55,16 @@ func (h UploadToS3Handler) Process(input interface{}) (interface{}, error) {
 type SendAPIRequestHandler struct{}
 
 func (h SendAPIRequestHandler) Process(input interface{}) (interface{}, error) {
-	uploadedURL, ok := input.(string)
-	if !ok {
-		return nil, fmt.Errorf("input is not a valid string")
+	uniqueFilename, err := filesystem.Hash(input.(string))
+	if err != nil {
+		return "", fmt.Errorf("failed to generate unique filename: %w", err)
 	}
 
 	// Send the API request. Implement this according to your API logic.
-	response, err := http.Send("", uploadedURL)
+	response, err := http.Send("https://staging-api.apiinsights.io/v1/reports", uniqueFilename)
 	if err != nil {
 		return nil, fmt.Errorf("API request failed: %w", err)
 	}
 
-	log.Printf("API request sent for: %s", response)
-	return "File processed successfully.", nil
+	return string(response), nil
 }

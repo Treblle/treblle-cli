@@ -26,7 +26,7 @@ func SendToS3(filePath string, accessKeyID string, secretAccessKey string, regio
 	defer file.Close()
 
 	// Create a session (ensure you have imported the AWS session package)
-	sess, err := session.NewSession(&aws.Config{Region: aws.String("your-region")})
+	sess, err := session.NewSession(&aws.Config{Region: aws.String(region)})
 	if err != nil {
 		fmt.Printf("Failed to create the AWS Session: %v\n\n", err)
 		os.Exit(1)
