@@ -90,6 +90,8 @@ func uploadFile(cmd *cobra.Command, args []string) {
 	}
 
 	fmt.Printf("Response Body: %s\n\n", string(body))
+	fmt.Printf("Status: %v\n\n", response.Status)
+
 }
 
 func checkMime(filePath string) bool {

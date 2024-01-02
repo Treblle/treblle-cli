@@ -1,5 +1,5 @@
 package routes
 
 func InsightsUrl() string {
-	return "https://apiinsights.io/api/reports"
+	return "https://dev.apiinsights.io/api/reports"
 }
