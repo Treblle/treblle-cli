@@ -20,13 +20,23 @@ import (
 
 var insightsCmd = &cobra.Command{
 	Use:   "insights [file path]",
-	Short: "Upload a file to the server",
+	Short: "Generate an API Insights report.",
+	Long:  "Generate an API Insights report from your OpenAPI specification.",
 	Args:  cobra.ExactArgs(1),
 	Run:   uploadFile,
 }
 
+func init() {
+	insightsCmd.Flags().StringP("details", "d", "", "Show the details of a report, options: 'all', 'design', 'performance', 'security'")
+	insightsCmd.Flags().BoolP("technology", "t", false, "Show the discovered technology.")
+}
+
 // uploadFile is the function that gets called when the Cobra command is executed
 func uploadFile(cmd *cobra.Command, args []string) {
+
+	details, _ := cmd.Flags().GetString("details")
+	technology, _ := cmd.Flags().GetBool("technology")
+
 	filePath := args[0]
 
 	if !checkMime(filePath) {
@@ -98,7 +108,24 @@ func uploadFile(cmd *cobra.Command, args []string) {
 		os.Exit(1)
 	}
 
-	views.NewApiInsightsView(&apiResponse)
+	views.ShowInsightsDetails(&apiResponse)
+
+	switch details {
+	case "performance", "p":
+		views.NewInsightsPerformanceView(&apiResponse)
+	case "design", "d":
+		views.NewInsightsDesignView(&apiResponse)
+	case "security", "s":
+		views.NewInsightsSecurityView(&apiResponse)
+	case "all", "a":
+		views.NewInsightsFullView(&apiResponse)
+	default:
+		views.NewApiInsightsView(&apiResponse)
+	}
+
+	if technology {
+		views.ShowInsightsTechnologyDiscovery(&apiResponse)
+	}
 }
 
 func checkMime(filePath string) bool {
