@@ -13,6 +13,8 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/treblle/treblle-cli/pkg/routes"
+	"github.com/treblle/treblle-cli/pkg/types"
+	"github.com/treblle/treblle-cli/pkg/views"
 	"gopkg.in/yaml.v2"
 )
 
@@ -89,9 +91,14 @@ func uploadFile(cmd *cobra.Command, args []string) {
 		os.Exit(1)
 	}
 
-	fmt.Printf("Response Body: %s\n\n", string(body))
-	fmt.Printf("Status: %v\n\n", response.Status)
+	var apiResponse types.ApiResponse
+	err = json.Unmarshal([]byte(body), &apiResponse)
+	if err != nil {
+		fmt.Printf("Failed to process API Response: %v\n\n", err)
+		os.Exit(1)
+	}
 
+	views.NewApiInsightsView(&apiResponse)
 }
 
 func checkMime(filePath string) bool {
