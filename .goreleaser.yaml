@@ -36,7 +36,7 @@ brews:
   -
     name: treblle
     homepage: "https://github.com/Treblle/treblle-cli"
-    tap:
+    repository:
       owner: Treblle
       name: homebrew-treblle
     commit_author:
