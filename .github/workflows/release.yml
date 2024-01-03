@@ -1,6 +1,7 @@
 name: Build release binaries
 
 on:
+  workflow_dispatch:
   push:
     tags:
       - "*"
