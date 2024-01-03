@@ -40,8 +40,8 @@ brews:
       owner: Treblle
       name: homebrew-treblle
     commit_author:
-      name: Nelwhix
-      email: nelson@treblle.com
+      name: Steve McDougall
+      email: steve@treblle.com
 
 checksum:
   name_template: 'checksums.txt'
