@@ -32,11 +32,6 @@ type Report struct {
 	DeleteToken     string       `json:"delete_token"`
 }
 
-type Industry struct {
-	Title string `json:"title"`
-	Value string `json:"value"`
-}
-
 type Category struct {
 	Title           string `json:"title"`
 	ScorePercentage int    `json:"score_percentage"`
