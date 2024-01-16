@@ -11,6 +11,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/pterm/pterm"
 	"github.com/spf13/cobra"
 	"github.com/treblle/treblle-cli/pkg/routes"
 	"github.com/treblle/treblle-cli/pkg/types"
@@ -37,42 +38,54 @@ func uploadFile(cmd *cobra.Command, args []string) {
 	details, _ := cmd.Flags().GetString("details")
 	technology, _ := cmd.Flags().GetBool("technology")
 
+	newHeader := pterm.HeaderPrinter{
+		TextStyle:       pterm.NewStyle(pterm.FgWhite),
+		BackgroundStyle: pterm.NewStyle(pterm.BgCyan),
+		Margin:          20,
+	}
+	newHeader.Println("API Insights")
+
 	filePath := args[0]
 
+	spinnerFile, _ := pterm.DefaultSpinner.Start("Validating OpenAPI Specification.")
 	if !checkMime(filePath) {
-		fmt.Println("Cannot use this file, only JSON or YAML is supported")
+		spinnerFile.Fail("Cannot use this file, only JSON or YAML is supported")
 		os.Exit(1)
 	}
+	spinnerFile.Success("File validated!")
 
+	spinnerOpen, _ := pterm.DefaultSpinner.Start("Processing OpenAPI Specification.")
 	file, err := os.Open(filePath)
 	if err != nil {
-		fmt.Printf("Failed to open file: %v\n\n", err)
+		spinnerOpen.Fail(fmt.Printf("Failed to open file: %v\n\n", err))
 		os.Exit(1)
 	}
 	defer file.Close()
-
 	content, err := os.ReadFile(filePath)
 	if err != nil {
-		fmt.Printf("Failed to read file contents: %v\n\n", err)
+		spinnerOpen.Fail(fmt.Printf("Failed to read file contents: %v\n\n", err))
 		os.Exit(1)
 	}
-
 	if !validateFile(content, filePath) {
-		fmt.Println("Could not validate the contents of this file as either YAML or JSON")
+		spinnerOpen.Fail("Could not validate the contents of this file as either YAML or JSON")
 		os.Exit(1)
 	}
+	spinnerOpen.Success("File Processed")
+
+	spinnerRequest, _ := pterm.DefaultSpinner.Start("Sending Request ...")
 
 	var requestBody bytes.Buffer
 	writer := multipart.NewWriter(&requestBody)
 	part, err := writer.CreateFormFile("file", file.Name())
 	if err != nil {
-		fmt.Printf("Failed to create Form Data: %v\n\n", err)
+		spinnerRequest.Fail(fmt.Printf("Failed to create Form Data: %v\n\n", err))
+
 		os.Exit(1)
 	}
 
 	_, err = io.Copy(part, file)
 	if err != nil {
-		fmt.Printf("Failed to write part from file: %v\n\n", err)
+		spinnerRequest.Fail(fmt.Printf("Failed to write part from file: %v\n\n", err))
 		os.Exit(1)
 	}
 
@@ -81,7 +94,7 @@ func uploadFile(cmd *cobra.Command, args []string) {
 	client := &http.Client{}
 	request, err := http.NewRequest(http.MethodPost, routes.InsightsUrl(), &requestBody)
 	if err != nil {
-		fmt.Printf("Failed to create request: %v\n\n", err)
+		spinnerRequest.Fail(fmt.Printf("Failed to create request: %v\n\n", err))
 		os.Exit(1)
 	}
 
@@ -97,14 +110,16 @@ func uploadFile(cmd *cobra.Command, args []string) {
 
 	body, err := io.ReadAll(response.Body)
 	if err != nil {
-		fmt.Printf("Error reading API response: %v\n\n", err)
+		spinnerRequest.Fail(fmt.Printf("Error reading API response: %v\n\n", err))
 		os.Exit(1)
 	}
+
+	spinnerRequest.Success("Response Received.")
 
 	var apiResponse types.ApiResponse
 	err = json.Unmarshal([]byte(body), &apiResponse)
 	if err != nil {
-		fmt.Printf("Failed to process API Response: %v\n\n", err)
+		spinnerRequest.Fail(fmt.Printf("Failed to process API Response: %v\n\n", err))
 		os.Exit(1)
 	}
 
