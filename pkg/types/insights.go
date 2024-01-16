@@ -26,10 +26,15 @@ type Report struct {
 	CreatedAt       string       `json:"created_at"`
 	ScorePercentage int          `json:"score_percentage"`
 	Grade           string       `json:"grade"`
-	Industry        Industry     `json:"industry"`
+	Industry        Industry     `json:"industry,omitempty"`
 	Categories      []Category   `json:"categories"`
 	Technologies    []Technology `json:"technologies"`
 	DeleteToken     string       `json:"delete_token"`
+}
+
+type Industry struct {
+	Title string `json:"title"`
+	Value string `json:"value"`
 }
 
 type Category struct {
