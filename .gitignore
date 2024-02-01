@@ -4,3 +4,4 @@ go.sum
 dist/
 .idea
 /bin/*
+./treblle
