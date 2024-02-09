@@ -39,8 +39,6 @@ func uploadFile(cmd *cobra.Command, args []string) {
 	technology, _ := cmd.Flags().GetBool("technology")
 
 	newHeader := pterm.HeaderPrinter{
-		TextStyle:       pterm.NewStyle(pterm.FgWhite),
-		BackgroundStyle: pterm.NewStyle(pterm.BgCyan),
 		Margin:          20,
 	}
 	newHeader.Println("API Insights")
