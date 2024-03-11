@@ -1,6 +1,6 @@
 module github.com/treblle/treblle-cli
 
-go 1.21
+go 1.20
 
 require (
 	github.com/charmbracelet/lipgloss v0.9.1
