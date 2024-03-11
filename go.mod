@@ -2,11 +2,10 @@ module github.com/treblle/treblle-cli
 
 go 1.21
 
-toolchain go1.21.5
-
 require (
 	github.com/charmbracelet/lipgloss v0.9.1
 	github.com/joho/godotenv v1.5.1
+	github.com/pterm/pterm v0.12.74
 	github.com/spf13/cobra v1.8.0
 	gopkg.in/yaml.v2 v2.4.0
 )
@@ -25,7 +24,6 @@ require (
 	github.com/mattn/go-runewidth v0.0.15 // indirect
 	github.com/muesli/reflow v0.3.0 // indirect
 	github.com/muesli/termenv v0.15.2 // indirect
-	github.com/pterm/pterm v0.12.74 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
