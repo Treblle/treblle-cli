@@ -8,7 +8,7 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:     "treblle",
+	Use:     "treblle-cli",
 	Version: "1.0.0",
 	Short:   "The Treblle CLI tool.",
 }

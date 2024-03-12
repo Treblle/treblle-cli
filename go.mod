@@ -1,10 +1,9 @@
 module github.com/treblle/treblle-cli
 
-go 1.20
+go 1.21
 
 require (
 	github.com/charmbracelet/lipgloss v0.9.1
-	github.com/joho/godotenv v1.5.1
 	github.com/pterm/pterm v0.12.74
 	github.com/spf13/cobra v1.8.0
 	gopkg.in/yaml.v2 v2.4.0
