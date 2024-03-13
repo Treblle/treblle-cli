@@ -51,9 +51,8 @@ func ShowInsightsDetails(apiResponse *types.ApiResponse) {
 }
 
 func ShowInsightsTechnologyDiscovery(apiResponse *types.ApiResponse) {
-	pterm.DefaultSection.WithLevel(2).Println("Technologies Discovered")
 
-	testData := pterm.TableData{{"Technology Name"}}
+	testData := pterm.TableData{{"Technologies Discovered"}}
 	for _, technology := range apiResponse.Report.Technologies {
 		row := []string{
 			styles.Title.Render(technology.Name),
@@ -138,8 +137,6 @@ func NewInsightsDesignView(apiResponse *types.ApiResponse) {
 
 			pterm.DefaultTable.WithHasHeader().WithBoxed().WithData(tableData).Render()
 
-			pterm.DefaultSection.WithLevel(2).Println("Design Tests")
-
 			testData := pterm.TableData{{"Test Title", "Status"}}
 			for _, test := range category.Tests {
 				row := []string{
@@ -168,8 +165,6 @@ func NewInsightsSecurityView(apiResponse *types.ApiResponse) {
 			}
 
 			pterm.DefaultTable.WithHasHeader().WithBoxed().WithData(tableData).Render()
-
-			pterm.DefaultSection.WithLevel(2).Println("Security Tests")
 
 			testData := pterm.TableData{{"Test Title", "Status"}}
 			for _, test := range category.Tests {
