@@ -39,11 +39,19 @@ func uploadFile(cmd *cobra.Command, args []string) {
 	technology, _ := cmd.Flags().GetBool("technology")
 
 	newHeader := pterm.HeaderPrinter{
-		Margin:          20,
+		Margin: 20,
 	}
 	newHeader.Println("API Insights")
 
 	filePath := args[0]
+
+	pterm.DefaultSpinner.SuccessPrinter = &pterm.PrefixPrinter{
+		MessageStyle: &pterm.Style{pterm.FgCyan},
+		Prefix: pterm.Prefix{
+			Style: &pterm.Style{pterm.FgLightWhite, pterm.BgCyan},
+			Text:  " SUCCESS ",
+		},
+	}
 
 	spinnerFile, _ := pterm.DefaultSpinner.Start("Validating OpenAPI Specification.")
 	if !checkMime(filePath) {
@@ -70,7 +78,7 @@ func uploadFile(cmd *cobra.Command, args []string) {
 	}
 	spinnerOpen.Success("File Processed")
 
-	spinnerRequest, _ := pterm.DefaultSpinner.Start("Sending Request ...")
+	spinnerRequest, _ := spinnerFile.Start("Sending Request ...")
 
 	var requestBody bytes.Buffer
 	writer := multipart.NewWriter(&requestBody)
@@ -117,7 +125,7 @@ func uploadFile(cmd *cobra.Command, args []string) {
 	var apiResponse types.ApiResponse
 	err = json.Unmarshal([]byte(body), &apiResponse)
 	if err != nil {
-		spinnerRequest.Fail(fmt.Printf("Failed to process API Response: %v\n\n", err))
+		spinnerFile.Fail(fmt.Printf("Failed to process API Response: %v\n\n", err))
 		os.Exit(1)
 	}
 

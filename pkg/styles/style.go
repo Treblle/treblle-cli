@@ -1,6 +1,9 @@
 package styles
 
-import "github.com/charmbracelet/lipgloss"
+import (
+	"github.com/charmbracelet/lipgloss"
+	"github.com/pterm/pterm"
+)
 
 var Text = lipgloss.NewStyle().
 	Foreground(lipgloss.CompleteAdaptiveColor{
@@ -151,7 +154,7 @@ func StyleForScore(score int) lipgloss.Style {
 		color = ReportsSvgColorBoundaryFallbackColor
 	}
 
-	return lipgloss.NewStyle().Foreground(color)
+	return lipgloss.NewStyle().Bold(true).Foreground(color)
 }
 
 // Define a map for grade to score percentage range
@@ -163,4 +166,17 @@ func StyleForGrade(grade string) lipgloss.Style {
 	}
 
 	return lipgloss.NewStyle().Foreground(color)
+}
+
+func RenderStyleForValue(value string) string {
+	switch value {
+	case "Skipped":
+		return pterm.NewStyle(pterm.FgLightYellow).Sprint(value)
+	case "Pass":
+		return pterm.NewStyle(pterm.FgLightGreen).Sprint(value)
+	case "Fail":
+		return pterm.NewStyle(pterm.FgRed).Sprint(value)
+	default:
+		return pterm.NewStyle(pterm.FgLightWhite).Sprint(value)
+	}
 }
