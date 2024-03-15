@@ -3,7 +3,7 @@
 Get insights into your OpenAPI specifications and API using the Treblle CLI.
 
 <div align="center">
-  <img src="https://assets.treblle.com/github/insights-CLI.png"/>
+  <img src="https://assets.apiinsights.io/insights-CLI.png"/>
 </div>
 
 ## Overview
