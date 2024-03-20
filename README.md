@@ -1,12 +1,21 @@
 # Treblle CLI
 
-Get insights into your OpenAPI specifications and API using the Treblle CLI.
+API Insights scores your API using over 30 tests taken from standards and industry best practices across three categories:
+
+- **Design**: how well your API is structured. Is it a well-crafted ship, ready to withstand the rough seas of user demands and scalability?
+
+- **Performance**: does your API respond quickly? It's like checking the wind in your sails – are you moving swiftly and smoothly?
+
+- **Security**: how safe and secure is your API? It's akin to having a strong hull to protect against the stormy seas of cyber threats.
+
 
 <div align="center">
   <img src="https://assets.apiinsights.io/insights-CLI.png"/>
 </div>
 
 ## Overview
+
+Get insights into your OpenAPI specifications and API using the Treblle CLI.
 
 ```md
 The Treblle CLI tool.
