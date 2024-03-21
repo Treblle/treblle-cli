@@ -68,9 +68,9 @@ The `--details` flag requires one of the following options:
 
 ### Miniumum score limit
 
-The `--m` flag gives you a possibility to set a minimum score in CI/CD enviroments:
+The `--minimum` flag gives you the possibility to set a minimum score in CI/CD environments:
 
-- `--m 90` to limit any of test to be at least 90 to pass
+- `--minimum 90` to limit any of tests to be at least 90 to pass
 
 
 
