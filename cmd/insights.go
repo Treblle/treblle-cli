@@ -30,6 +30,7 @@ var insightsCmd = &cobra.Command{
 func init() {
 	insightsCmd.Flags().StringP("details", "d", "", "Show the details of a report, options: 'all', 'design', 'performance', 'security'")
 	insightsCmd.Flags().BoolP("technology", "t", false, "Show the discovered technology.")
+	insightsCmd.Flags().IntP("minimum", "m", 0, "The minimum score for tests to pass")
 }
 
 // uploadFile is the function that gets called when the Cobra command is executed
@@ -37,6 +38,7 @@ func uploadFile(cmd *cobra.Command, args []string) {
 
 	details, _ := cmd.Flags().GetString("details")
 	technology, _ := cmd.Flags().GetBool("technology")
+	minimum, _ := cmd.Flags().GetInt("minimum")
 
 	newHeader := pterm.HeaderPrinter{
 		Margin: 20,
@@ -78,7 +80,7 @@ func uploadFile(cmd *cobra.Command, args []string) {
 	}
 	spinnerOpen.Success("File Processed")
 
-	spinnerRequest, _ := spinnerFile.Start("Sending Request ...")
+	spinnerRequest, _ := pterm.DefaultSpinner.Start("Sending Request ...")
 
 	var requestBody bytes.Buffer
 	writer := multipart.NewWriter(&requestBody)
@@ -123,7 +125,7 @@ func uploadFile(cmd *cobra.Command, args []string) {
 	spinnerRequest.Success("Response Received.")
 
 	var apiResponse types.ApiResponse
-	err = json.Unmarshal([]byte(body), &apiResponse)
+	err = json.Unmarshal(body, &apiResponse)
 	if err != nil {
 		spinnerFile.Fail(fmt.Printf("Failed to process API Response: %v\n\n", err))
 		os.Exit(1)
@@ -146,6 +148,19 @@ func uploadFile(cmd *cobra.Command, args []string) {
 
 	if technology {
 		views.ShowInsightsTechnologyDiscovery(&apiResponse)
+	}
+
+	if minimum > 0 {
+		minimumSpinner, _ := pterm.DefaultSpinner.Start("Checking score percentages against minimum")
+
+		for _, category := range apiResponse.Report.Categories {
+			if category.ScorePercentage < minimum {
+				minimumSpinner.Fail(fmt.Sprintf("Expected minimum of %v, got %v in %v category", minimum, category.ScorePercentage, category.Title))
+				os.Exit(1)
+			}
+		}
+
+		minimumSpinner.Success("Score percentages pass")
 	}
 }
 
