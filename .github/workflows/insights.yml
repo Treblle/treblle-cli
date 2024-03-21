@@ -1,0 +1,29 @@
+name: API insights
+
+on:
+  pull_request:
+      branches: [ develop, release ]
+      types: [opened, synchronize]
+
+jobs:
+  insight:
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install Homebrew
+      run: |
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+    - name: Set up Homebrew taps
+      run: |
+        brew tap treblle/treblle
+
+    - name: Install dependencies
+      run: |
+        brew install treblle
+
+    - name: Run tests
+      run: treblle-cli insights openapi-spec.json -m 45
