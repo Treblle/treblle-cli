@@ -2,7 +2,7 @@ name: API insights
 
 on:
   pull_request:
-      branches: [ develop, release ]
+      branches: [ develop, release, main ]
       types: [opened, synchronize]
 
 jobs:
