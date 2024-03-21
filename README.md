@@ -53,11 +53,11 @@ treblle-cli insights path/to/openapi-spec.json
 
 You then have various options available to you. By default you will get an overview of the report, which will allow you to have a high-level overview of your API Insights score. You can also use any of the following options:
 
-### `--technology` Technology Profile
+### Technology Profile
 
 Add the `--technology` flag to see the technology profile discovered on your API.
 
-### `--details` Details
+### Details
 
 The `--details` flag requires one of the following options:
 
@@ -65,4 +65,12 @@ The `--details` flag requires one of the following options:
 - `--details=security` to show the security test pass/fail for your API.
 - `--details=quality` to show the quality test pass/fail for your API.
 - `--details=all` to show the performance, security, and quality test pass/fail for your API.
+
+### Miniumum score limit
+
+The `--m` flag gives you a possibility to set a minimum score in CI/CD enviroments:
+
+- `--m 90` to limit any of test to be at least 90 to pass
+
+
 
