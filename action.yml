@@ -1,5 +1,14 @@
-name: API insights
+# ====================================================================================
+# Action metadata
+name: API insights CLI - Brew
+author: Treblle
+description: Get insights into your OpenAPI specifications and API using the Treblle CLI.
+branding:
+  icon: terminal
+  color: blue
 
+# ====================================================================================
+# Action
 on:
   pull_request:
       branches: [ develop, release, main ]
