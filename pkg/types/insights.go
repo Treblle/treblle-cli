@@ -25,6 +25,7 @@ type Report struct {
 	TotalEndpoints  int          `json:"total_endpoints"`
 	CreatedAt       string       `json:"created_at"`
 	ScorePercentage int          `json:"score_percentage"`
+	AIReady         bool         `json:"is_ai_ready"`
 	Grade           string       `json:"grade"`
 	Industry        Industry     `json:"industry,omitempty"`
 	Categories      []Category   `json:"categories"`

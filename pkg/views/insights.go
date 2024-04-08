@@ -2,6 +2,7 @@ package views
 
 import (
 	"fmt"
+
 	"github.com/pterm/pterm"
 	"github.com/treblle/treblle-cli/pkg/styles"
 	"github.com/treblle/treblle-cli/pkg/types"
@@ -48,6 +49,11 @@ func ShowInsightsDetails(apiResponse *types.ApiResponse) {
 	prefixPrinter.Prefix.Text = "Overall"
 	prefixPrinter.Println(
 		pterm.NewStyle(pterm.FgLightWhite).Sprint(apiResponse.Report.ScorePercentage),
+	)
+
+	prefixPrinter.Prefix.Text = "AI Ready"
+	prefixPrinter.Println(
+		pterm.NewStyle(pterm.FgLightWhite).Sprint(apiResponse.Report.AIReady),
 	)
 }
 
