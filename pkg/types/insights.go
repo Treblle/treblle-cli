@@ -7,11 +7,6 @@ type ApiResponse struct {
 	Report  Report `json:"report"`
 }
 
-type Industry struct {
-	Title string `json:"title"`
-	Value string `json:"value"`
-}
-
 // Report is the API
 // Insights Report itself
 type Report struct {
@@ -25,9 +20,8 @@ type Report struct {
 	TotalEndpoints  int          `json:"total_endpoints"`
 	CreatedAt       string       `json:"created_at"`
 	ScorePercentage int          `json:"score_percentage"`
-	AIReady         bool         `json:"is_ai_ready"`
 	Grade           string       `json:"grade"`
-	Industry        Industry     `json:"industry,omitempty"`
+	Industry        string       `json:"industry"`
 	Categories      []Category   `json:"categories"`
 	Technologies    []Technology `json:"technologies"`
 	DeleteToken     string       `json:"delete_token"`
