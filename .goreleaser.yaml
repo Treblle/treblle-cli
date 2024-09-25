@@ -26,7 +26,6 @@ builds:
       - linux
       - darwin
       - windows
-      - freebsd
     goarm:
       - 6
       - 7
