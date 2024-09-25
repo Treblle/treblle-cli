@@ -68,6 +68,31 @@ archives:
       - goos: windows
         format: zip
 
+chocolateys:
+  - name: treblle
+    title: Treblle CLI
+    authors: Treblle
+    project_url: https://github.com/treblle/treblle-cli
+    url_template: "https://github.com/treblle/treblle-cli/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
+    copyright: 2024 Treblle
+    license_url: https://github.com/treblle/treblle-cli/blob/main/LICENSE
+    project_source_url: https://github.com/treblle/treblle-cli
+    docs_url: https://docs.treblle.com/tools/cli
+    bug_tracker_url: https://github.com/treblle/treblle-cli/issues
+    tags: openapi api insights api-insights api-testing api-performance api-security api-quality
+    summary: API Insights scores your API using over 30 tests taken from standards and industry best practices across three categories; Performance, Quality, & Security
+    description: |-
+API Insights scores your API using over 30 tests taken from standards and industry best practices across three categories:
+
+- **Design**: how well your API is structured. Is it a well-crafted ship, ready to withstand the rough seas of user demands and scalability?
+
+- **Performance**: does your API respond quickly? It's like checking the wind in your sails – are you moving swiftly and smoothly?
+
+- **Security**: how safe and secure is your API? It's akin to having a strong hull to protect against the stormy seas of cyber threats.
+    release_notes: "https://github.com/treblle/treblle-cli/releases/tag/v{{ .Version }}"
+    api_key: "{{ .Env.CHOCOLATEY_API_KEY }}"
+    source_repo: "https://push.chocolatey.org/"
+
 changelog:
   sort: asc
   filters:
