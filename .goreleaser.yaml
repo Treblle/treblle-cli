@@ -90,7 +90,7 @@ API Insights scores your API using over 30 tests taken from standards and indust
 
 - **Security**: how safe and secure is your API? It's akin to having a strong hull to protect against the stormy seas of cyber threats.
     release_notes: "https://github.com/treblle/treblle-cli/releases/tag/v{{ .Version }}"
-    api_key: "{{ .Env.CHOCOLATEY_API_KEY }}"
+    api_key: "{{ secrets.CHOCOLATEY_API_KEY }}"
     source_repo: "https://push.chocolatey.org/"
 
 changelog:
