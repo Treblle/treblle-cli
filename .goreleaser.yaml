@@ -82,6 +82,8 @@ archives:
       {{- else if eq .Arch "386" }}i386
       {{- else }}{{ .Arch }}{{ end }}
       {{- if .Arm }}_v{{ .Arm }}{{ end }}
+      {{- if .Goamd64 }}_{{ .Goamd64 }}{{ end }} # Includes goamd64 version
+      {{- if .Goarch }}_{{ .Goarch }}{{ end }}   # Includes goarch version
 
     # use zip for windows archives
     format_overrides:
