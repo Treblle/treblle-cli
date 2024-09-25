@@ -93,7 +93,6 @@ archives:
       {{- end }}
       {{- if .Arm }}v{{ .Arm }}{{ end }}_
       {{ .Tag }}
-    
 
     # use zip for windows archives
     format_overrides:
