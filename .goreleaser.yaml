@@ -53,6 +53,7 @@ brews:
 
 checksum:
   name_template: 'checksums.txt'
+
 archives:
   - format: tar.gz
     # this name template makes the OS and Arch compatible with the results of `uname`.
@@ -67,6 +68,33 @@ archives:
     format_overrides:
       - goos: windows
         format: zip
+
+winget:
+  - name: treblle
+    publisher: Treblle
+    short_description: "API Insights scores your API using over 30 tests taken from standards and industry best practices across three categories; Performance, Quality, & Security"
+    license: "MIT"
+    publisher_url: https://goreleaser.com
+    publisher_support_url: "https://github.com/treblle/treblle-cli/issues/new"
+    package_identifier: treblle.cli
+    goamd64: v1
+    url_template: "https://github.com/treblle/treblle-cli/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
+    commit_author:
+      name: goreleaserbot
+      email: bot@goreleaser.com
+    commit_msg_template: "{{ .PackageIdentifier }}: {{ .Tag }}"
+    path: manifests/t/treblle/cli/{{ .Tag }}
+    homepage: "https://www.treblle.com/"
+    description: "API Insights scores your API using over 30 tests taken from standards and industry best practices across three categories; Performance, Quality, & Security"
+    copyright: "Treblle"
+    release_notes: "{{.Changelog}}"
+    tags:
+      - api
+      - api-insights
+      - api-testing
+      - api-performance
+      - api-security
+      - api-quality
 
 chocolateys:
   - name: treblle
