@@ -78,12 +78,22 @@ archives:
   - format: tar.gz
     # this name template makes the OS and Arch compatible with the results of `uname`.
     name_template: >-
-      {{ .ProjectName }}_{{ title .Os }}_{{ .Version }}_{{- if eq .Arch "amd64" }}x86_64
-      {{- else if eq .Arch "386" }}i386
-      {{- else }}{{ .Arch }}{{ end }}
-      {{- if .Arm }}_v{{ .Arm }}{{ end }}
-      {{- if .Goamd64 }}_{{ .Goamd64 }}{{ end }} # Includes goamd64 version
-      {{- if .Goarch }}_{{ .Goarch }}{{ end }}   # Includes goarch version
+      {{ .ProjectName }}_
+      {{- title .Os }}_
+      {{- if eq .Os "windows" }}
+        {{- if eq .Arch "amd64" }}64bit
+        {{- else if eq .Arch "386" }}32bit
+        {{- else }}{{ .Arch }}
+        {{- end }}
+      {{- else }}
+        {{- if eq .Arch "amd64" }}x86_64
+        {{- else if eq .Arch "386" }}i386
+        {{- else }}{{ .Arch }}
+        {{- end }}
+      {{- end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}_
+      {{ .Tag }}
+    
 
     # use zip for windows archives
     format_overrides:
