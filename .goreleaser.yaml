@@ -53,6 +53,7 @@ brews:
 
 checksum:
   name_template: 'checksums.txt'
+
 archives:
   - format: tar.gz
     # this name template makes the OS and Arch compatible with the results of `uname`.
@@ -68,6 +69,33 @@ archives:
       - goos: windows
         format: zip
 
+winget:
+  - name: treblle
+    publisher: Treblle
+    short_description: "API Insights scores your API using over 30 tests taken from standards and industry best practices across three categories; Performance, Quality, & Security"
+    license: "MIT"
+    publisher_url: https://goreleaser.com
+    publisher_support_url: "https://github.com/treblle/treblle-cli/issues/new"
+    package_identifier: treblle.cli
+    goamd64: v1
+    url_template: "https://github.com/treblle/treblle-cli/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
+    commit_author:
+      name: goreleaserbot
+      email: bot@goreleaser.com
+    commit_msg_template: "{{ .PackageIdentifier }}: {{ .Tag }}"
+    path: manifests/t/treblle/cli/{{ .Tag }}
+    homepage: "https://www.treblle.com/"
+    description: "API Insights scores your API using over 30 tests taken from standards and industry best practices across three categories; Performance, Quality, & Security"
+    copyright: "Treblle"
+    release_notes: "{{.Changelog}}"
+    tags:
+      - api
+      - api-insights
+      - api-testing
+      - api-performance
+      - api-security
+      - api-quality
+
 chocolateys:
   - name: treblle
     title: Treblle CLI
@@ -82,13 +110,13 @@ chocolateys:
     tags: openapi api insights api-insights api-testing api-performance api-security api-quality
     summary: API Insights scores your API using over 30 tests taken from standards and industry best practices across three categories; Performance, Quality, & Security
     description: |-
-API Insights scores your API using over 30 tests taken from standards and industry best practices across three categories:
+      API Insights scores your API using over 30 tests taken from standards and industry best practices across three categories:
 
-- **Design**: how well your API is structured. Is it a well-crafted ship, ready to withstand the rough seas of user demands and scalability?
+      - **Design**: how well your API is structured. Is it a well-crafted ship, ready to withstand the rough seas of user demands and scalability?
 
-- **Performance**: does your API respond quickly? It's like checking the wind in your sails – are you moving swiftly and smoothly?
+      - **Performance**: does your API respond quickly? It's like checking the wind in your sails – are you moving swiftly and smoothly?
 
-- **Security**: how safe and secure is your API? It's akin to having a strong hull to protect against the stormy seas of cyber threats.
+      - **Security**: how safe and secure is your API? It's akin to having a strong hull to protect against the stormy seas of cyber threats.
     release_notes: "https://github.com/treblle/treblle-cli/releases/tag/v{{ .Version }}"
     api_key: "{{ secrets.CHOCOLATEY_API_KEY }}"
     source_repo: "https://push.chocolatey.org/"
