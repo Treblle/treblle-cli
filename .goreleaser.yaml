@@ -76,25 +76,6 @@ checksum:
 
 archives:
   - format: tar.gz
-    # this name template makes the OS and Arch compatible with the results of `uname`.
-    name_template: >-
-      {{ .ProjectName }}_
-      {{- title .Os }}_
-      {{- if eq .Os "windows" }}
-        {{- if eq .Arch "amd64" }}64bit
-        {{- else if eq .Arch "386" }}32bit
-        {{- else }}{{ .Arch }}
-        {{- end }}
-      {{- else }}
-        {{- if eq .Arch "amd64" }}x86_64
-        {{- else if eq .Arch "386" }}i386
-        {{- else }}{{ .Arch }}
-        {{- end }}
-      {{- end }}
-      {{- if .Arm }}v{{ .Arm }}{{ end }}_
-      {{ .Tag }}
-    
-
     # use zip for windows archives
     format_overrides:
       - goos: windows
