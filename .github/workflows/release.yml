@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   goreleaser:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,6 +23,9 @@ jobs:
         with:
           go-version: 1.19
 
+      - name: Verify Chocolatey installation
+        run: choco --version
+
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v5
         with:
@@ -31,3 +34,4 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.PUBLISHER_TOKEN }}
+          CHOCOLATEY_API_KEY: ${{ secrets.CHOCOLATEY_API_KEY }}

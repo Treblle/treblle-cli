@@ -25,15 +25,13 @@ builds:
       - darwin
       - windows
       - freebsd
-    goarm:
-      - 6
-      - 7
-    goamd64:
-      - v2
-      - v3
 
-release:
-  prerelease: auto
+archives:
+  - format: tar.gz
+    # use zip for windows archives
+    format_overrides:
+      - goos: windows
+        format: zip
 
 brews:
   -
@@ -68,18 +66,12 @@ chocolateys:
 
       - **Security**: how safe and secure is your API? It's akin to having a strong hull to protect against the stormy seas of cyber threats.
     release_notes: "https://github.com/treblle/treblle-cli/releases/tag/v{{ .Version }}"
-    api_key: "{{ secrets.CHOCOLATEY_API_KEY }}"
+    api_key: "{{ .Env.CHOCOLATEY_API_KEY }}"
     source_repo: "https://push.chocolatey.org/"
+    skip_publish: false
 
 checksum:
   name_template: 'checksums.txt'
-
-archives:
-  - format: tar.gz
-    # use zip for windows archives
-    format_overrides:
-      - goos: windows
-        format: zip
 
 changelog:
   sort: asc
